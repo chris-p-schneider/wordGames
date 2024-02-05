@@ -1,0 +1,17 @@
+/*********************************************/
+/* modules.css */
+/*********************************************/
+
+#theme-picker {
+	font-size: 1.5rem;
+	cursor: pointer;
+	opacity: .34;
+	transition: opacity .23s ease-in-out;
+}
+
+#theme-picker:hover, #theme-picker:active {
+	opacity: 1;
+}
+
+
+/*********************************************/

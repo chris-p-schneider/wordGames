@@ -13,6 +13,7 @@ const port = 3000
 let ejs = require('ejs');
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(express.static('public'));
 
 ///////////////////////////////////////////////////////////////
 // ROUTES
@@ -24,12 +25,16 @@ app.get('/', (req, res) => {
 
 // Word Search
 app.get('/word-search', (req, res) => {
-  res.render('index', { title: 'Word Search Generator' });
+  res.render('index', { main: 'wordSearch',
+                        title: 'Word Games',
+                        subtitle: 'Word Search Generator' });
 })
 
 // Crossword
 app.get('/crossword', (req, res) => {
-  res.render('index', { title: 'Crossword Generator' });
+  res.render('index', { main: 'wordSearch',
+                        title: 'Word Games',
+                        subtitle: 'Crossword Generator' });
 })
 
 ///////////////////////////////////////////////////////////////

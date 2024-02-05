@@ -1,0 +1,21 @@
+/*********************************************/
+/* layout.css */
+/*********************************************/
+
+header {
+	background-color: var(--background-accent);
+	border-bottom: 3px solid var(--border-color);
+	padding: 1rem 2rem;
+
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+main {
+	padding: 1rem;
+}
+
+
+/*********************************************/

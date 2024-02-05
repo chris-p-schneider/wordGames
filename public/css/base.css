@@ -1,0 +1,59 @@
+/*********************************************/
+/* base.css */
+/*********************************************/
+
+:root {
+
+	font-size: 16px;
+
+	--background-dark: hsla(0, 0%, 10%, 1);
+	--background-light: hsla(0, 0%, 96%, 1);
+
+	--accent-dark: hsla(0, 0%, 6%, 1);
+	--accent-light: hsla(0, 0%, 85%, 1);
+
+	--border-dark: hsla(50, 67%, 50%, .67);
+	--border-light: hsla(0, 0%, 25%, .67);
+
+	--font-dark: hsla(51, 90%, 65%, 1);
+	--font-light: hsla(0, 0%, 0%, 1);
+
+}
+
+* {
+	scroll-behavior: smooth;
+	transition: background-color .34s ease-in,
+				border-color .34s ease-in,
+				color .34s ease-in;
+}
+
+/*********************************************/
+
+html, body {
+	min-height: 100vh;
+	min-width: 100vw;
+	background-color: var(--background-color);
+}
+
+html, body, div {
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+/*********************************************/
+
+h1, h2, h3, h4, h5, h6, 
+p, sapn, label, input, textarea {
+	font-family: 'Gabarito', sans-serif;
+	margin: 0;
+	line-height: 1;
+	font-weight: 400;
+	color: var(--font-color);
+}
+
+h1 {
+	font-weight: 700;
+}
+
+/*********************************************/
