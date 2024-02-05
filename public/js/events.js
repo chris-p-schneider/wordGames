@@ -2,6 +2,7 @@
 // events.js
 ///////////////////////////////////////////////////////////////
 
+// changes the theme picker icon and html theme class
 const themeToggle = () => {
 	
 	const themePicker = document.querySelector('#theme-picker');
@@ -16,17 +17,19 @@ const themeToggle = () => {
 			themePicker.textContent = '🌞';
 			html.setAttribute('class', 'theme-dark');
 		}
+		// 🟡 should save/check theme in cookie
 	});
 }
 
-///////////////////////////////////////////////////////////////
-
-function loadEvents() {
-	themeToggle();
+// shows a modal explaining cookies and on accept creates a cookie
+const requestCookies = () => {
+	// 🍪 ...
 }
 
 ///////////////////////////////////////////////////////////////
 
-addEventListener('load', loadEvents);
+export function loadEvents() {
+	themeToggle();
+}
 
 ///////////////////////////////////////////////////////////////

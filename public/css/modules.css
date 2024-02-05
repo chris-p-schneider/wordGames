@@ -3,8 +3,10 @@
 /*********************************************/
 
 #theme-picker {
+	margin: -15px -15px 0 0;
 	font-size: 1.5rem;
 	cursor: pointer;
+
 	opacity: .34;
 	transition: opacity .23s ease-in-out;
 }

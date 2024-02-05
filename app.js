@@ -20,19 +20,21 @@ app.use(express.static('public'));
 ///////////////////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Express with EJS' });
+  res.render('index', { main: 'wordGames.ejs',
+                        title: 'Word Games',
+                        subtitle: 'Handout generators for teachers' });
 })
 
 // Word Search
 app.get('/word-search', (req, res) => {
-  res.render('index', { main: 'wordSearch',
+  res.render('index', { main: './generators/wordSearch.ejs',
                         title: 'Word Games',
                         subtitle: 'Word Search Generator' });
 })
 
 // Crossword
 app.get('/crossword', (req, res) => {
-  res.render('index', { main: 'wordSearch',
+  res.render('index', { main: './generators/crossWord.ejs',
                         title: 'Word Games',
                         subtitle: 'Crossword Generator' });
 })

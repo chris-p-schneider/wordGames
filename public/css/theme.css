@@ -6,14 +6,15 @@
 	--background-color: var(--background-dark);
 	--background-accent: var(--accent-dark);
 	--border-color: var(--border-dark);
-	--font-color: var(--font-dark);	
+	--font-color: var(--font-dark);
+	--link-color: var(--link-dark);
 }
 
 .theme-light {
 	--background-color: var(--background-light);
 	--background-accent: var(--accent-light);
 	--border-color: var(--border-light);
-	--font-color: var(--font-light);
+	--link-color: var(--link-light);
 }
 
 /*********************************************/

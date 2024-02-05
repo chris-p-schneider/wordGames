@@ -18,6 +18,9 @@
 	--font-dark: hsla(51, 90%, 65%, 1);
 	--font-light: hsla(0, 0%, 0%, 1);
 
+	--link-dark: hsla(30, 90%, 50%, 1);
+	--link-light: hsla(235, 100%, 55%, 1);
+
 }
 
 * {
@@ -44,7 +47,8 @@ html, body, div {
 /*********************************************/
 
 h1, h2, h3, h4, h5, h6, 
-p, sapn, label, input, textarea {
+a, p, span, ul, ol, li,
+label, input, textarea {
 	font-family: 'Gabarito', sans-serif;
 	margin: 0;
 	line-height: 1;
@@ -55,5 +59,32 @@ p, sapn, label, input, textarea {
 h1 {
 	font-weight: 700;
 }
+
+/*********************************************/
+
+ol {
+	list-style: decimal-leading-zero outside;
+}
+
+li {
+	font-size: 1.15rem;
+}
+li::marker {
+	margin-right: 2rem !important;
+}
+
+/*********************************************/
+
+a {
+	color: var(--link-color);
+	transition: filter .23s ease-in-out;
+}
+a:hover {
+	filter: brightness(1.5);
+}
+a:visited {
+	filter: brightness(.75);
+}
+
 
 /*********************************************/

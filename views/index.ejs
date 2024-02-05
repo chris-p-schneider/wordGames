@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="./css/smacss.css">
 
 	<!-- JS -->
-	<script src="./js/events.js" defer></script>
+	<script type="module" src="./js/main.js" defer></script>
 
 	<!-- TITLE -->
 	<title><%= title + ' - ' + subtitle %></title>
@@ -23,7 +23,7 @@
 <body>
 
 	<!-- HEADER -->
-    <%- include('header', { 
+    <%- include('components/header.ejs', { 
     	title: title, subtitle: subtitle 
     }); %>
 
