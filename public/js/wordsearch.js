@@ -14,6 +14,7 @@ const TYPE        = document.querySelector('#ws-type');
 const BUTTON      = document.querySelector('#ws-button');
 
 BUTTON.addEventListener('click', generateWordsearch);
+TYPE.addEventListener('input', showTypeDescription);
 
 ///////////////////////////////////////////////////////////////
 // Validates input and generates then renders a word search
@@ -29,6 +30,8 @@ function generateWordsearch() {
 
 		if (validateFit(numLetters, longestWord)) {
 
+			CONTAINER.innerHTML = '';
+
 			// fetch the filler letters
 			fetch(`./letters/${TYPE.value}`, {
 				method: 'GET'
@@ -41,7 +44,9 @@ function generateWordsearch() {
 			// generate the word search
 			.then((json) => {
 				const filler = json.text;
-				console.log(getFillerLetter(filler));
+				const M = new Matrix(ROWS.value, COLS.value, false, filler);
+				CONTAINER.replaceWith(M.renderHTML());
+
 				// 🟡🟡🟡
 			});
 		}
@@ -98,5 +103,88 @@ function getFillerLetter(filler) {
 	return filler.at(Math.floor(Math.random() * filler.length));
 }
 
+
+///////////////////////////////////////////////////////////////
+// Cell Class
+///////////////////////////////////////////////////////////////
+
+class Cell {
+	constructor(row, column, content) {
+		this.r = row;
+		this.c = column;
+		this.content = content;
+	}
+}
+
+///////////////////////////////////////////////////////////////
+// Matrix Class
+///////////////////////////////////////////////////////////////
+
+class Matrix {
+	constructor(rows, columns, showIndex, filler) {
+		this.r = rows;
+		this.c = columns;
+		this.showIndex = showIndex;
+		this.filler = filler;
+		this.matrix = [];
+
+		for (let r = 0; r < this.r; r++) {
+			this.matrix[r] = new Array();
+			for (let c = 0; c < this.c; c++) {
+				if (this.showIndex) {
+					this.matrix[r][c] = new Cell(r, c, `(${r}, ${c})`);
+				} else {
+					this.matrix[r][c] = new Cell(r, c, getFillerLetter(this.filler));
+				}
+			}
+		}
+	}
+	// Return a div with rows and cells
+	renderHTML() {
+		const parent = document.createElement('div');
+		parent.setAttribute('class', 'ws-container');
+		for (let r = 0; r < this.r; r++) {
+			const row = document.createElement('div');
+			row.setAttribute('class', 'ws-row')
+			for (let c = 0; c < this.c; c++) {
+				const cell = document.createElement('span');
+				cell.setAttribute('class', 'ws-cell');
+				cell.textContent = this.matrix[r][c].content;
+				row.appendChild(cell);
+			}
+			parent.appendChild(row);
+		}
+		return parent;
+	}
+}
+
+/*
+	// place all words on grid
+	for w in words
+		get random start pos
+		if can place on start
+			for d in directions
+				if can fit
+					place word
+	// output answer key
+	// fill empty tiles
+	for t in tiles
+		if tile empty
+			get filler
+*/
+
+///////////////////////////////////////////////////////////////
+// Changes the filler type description when selecting options
+///////////////////////////////////////////////////////////////
+
+function showTypeDescription() {
+	const option = TYPE.querySelector('option:checked');
+	if (option) {
+		DESCRIPTION.textContent = option.dataset.description;
+	}
+	else {
+		DESCRIPTION.textContent = DESC;
+	}
+}
 
 ///////////////////////////////////////////////////////////////
