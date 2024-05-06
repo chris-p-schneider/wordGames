@@ -15,7 +15,22 @@ header {
 
 main {
 	padding: 2rem;
+	max-width: calc(100vw - 4rem);
 }
 
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	& > * {
+		margin: 0;		
+	}
+	& > input[type=checkbox] {
+		flex-shrink: 1;
+	}
+	& > label {
+		flex-grow: 3;
+	}
+}
 
 /*********************************************/

@@ -1,0 +1,22 @@
+/*********************************************/
+/* media.css */
+/*********************************************/
+
+@media (width < 800px) {
+	main > section {
+		flex-flow: column nowrap !important;
+	}
+	#word-search {
+    	max-width: calc(100% - 40px);
+    	& > aside {
+    		max-width: 100%;
+    		width: 100%;
+    	}
+	}
+}
+
+@media (width >= 800px) {
+	/**/
+}
+
+/*********************************************/

@@ -1,9 +1,8 @@
 <!-- wordSearch.ejs -->
 
 <script src="<%= script %>" defer></script>
+
 <section id="word-search">
-	<div id="ws-container">
-	</div>
 
 	<aside>
 		<label for="ws-words">Word Bank:</label>
@@ -19,8 +18,8 @@
 		<p id="ws-type-description">Select a method for the filler letters.</p>
 
 		<select id="ws-type" name="ws-type">
-			<option disabled selected>Select a Filler Type</option>
-			<option value="random" 
+			<option disabled>Select a Filler Type:</option>
+			<option value="random" selected  
 				data-description="Easier difficulty: fills in the word search with random letters.">
 				Random Letters</option>
 			<option value="text"
@@ -31,8 +30,17 @@
 				Dictionary Frequency</option>
 		</select>
 
-
 		<button id="ws-button">Generate!</button>
+
+		<div class="checkbox-container">
+			<input id="ws-show-answer" name="ws-show-answer" type="checkbox" disabled>
+			<label for="ws-show-answer">Show Answer</label>
+		</div>
+
 	</aside>
+
+	<div id="ws-container">
+		<canvas width="700" height="900"></canvas>
+	</div>
 
 </section>

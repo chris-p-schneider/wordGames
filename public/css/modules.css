@@ -20,23 +20,28 @@
 #word-search {
 	display: flex;
 	flex-flow: row nowrap;
+	justify-content: space-between;
 	gap: 40px;
 }
 
-#word-search > :is(div.ws-container, aside) {
+#word-search > :is(#ws-container, aside) {
 	display: flex;
 	padding: 20px;
 	border: 2px dotted var(--border-color);
 }
 
 /* Output grid */
-#word-search > div.ws-container {
+#ws-container {
 	font-family: "Noto Sans Mono", monospace;
 	font-size: 1.25rem;
 	text-align: center;
 
+	width: 100%;
+	height: fit-content;
+
 	flex-flow: column nowrap;
 	justify-content: center;
+	align-items: center;
 }
 
 

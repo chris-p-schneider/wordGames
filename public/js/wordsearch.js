@@ -8,13 +8,17 @@ const CONTAINER   = document.querySelector('#ws-container');
 const WORDS       = document.querySelector('#ws-words');
 const ROWS        = document.querySelector('#ws-rows');
 const COLS        = document.querySelector('#ws-columns');
+const CELL_WIDTH  = 50;
 const DESCRIPTION = document.querySelector('#ws-type-description');
 const DESC        = 'Select a method for the filler letters.';
 const TYPE        = document.querySelector('#ws-type');
 const BUTTON      = document.querySelector('#ws-button');
+const SHOW_ANSWER = document.querySelector('#ws-show-answer');
 
-BUTTON.addEventListener('click', generateWordsearch);
+ROWS.addEventListener('input', showCanvasSize);
+COLS.addEventListener('input', showCanvasSize);
 TYPE.addEventListener('input', showTypeDescription);
+BUTTON.addEventListener('click', generateWordsearch);
 
 ///////////////////////////////////////////////////////////////
 // Validates input and generates then renders a word search
@@ -30,12 +34,14 @@ function generateWordsearch() {
 
 		if (validateFit(numLetters, longestWord)) {
 
-			CONTAINER.innerHTML = '';
+			SHOW_ANSWER.checked = false;
 
 			// fetch the filler letters
 			fetch(`./letters/${TYPE.value}`, {
 				method: 'GET'
-			}).then((response) => {
+			})
+			// retrieve json
+			.then((response) => {
 				if (!response.ok) {
 					console.error(response.status);
 				}
@@ -45,13 +51,27 @@ function generateWordsearch() {
 			.then((json) => {
 				const filler = json.text;
 				const M = new Matrix(ROWS.value, COLS.value, false, filler);
-				CONTAINER.replaceWith(M.renderHTML());
-
-				// 🟡🟡🟡
+				updateContainer(M);
+				return;
 			});
 		}
 
 	}
+}
+
+function updateContainer(matrix) {
+	CONTAINER.innerHTML = '';
+	CONTAINER.appendChild(matrix.renderCanvas(false));
+	SHOW_ANSWER.disabled = false;
+	SHOW_ANSWER.addEventListener('input', () => {
+		if (CONTAINER.checked) {
+			CONTAINER.innerHTML = '';
+			CONTAINER.appendChild(matrix.renderCanvas(true));						
+		} else {
+			CONTAINER.innerHTML = '';
+			CONTAINER.appendChild(matrix.renderCanvas(false));						
+		}
+	});
 }
 
 ///////////////////////////////////////////////////////////////
@@ -100,7 +120,12 @@ function getLongestWord(wordList) {
 ///////////////////////////////////////////////////////////////
 
 function getFillerLetter(filler) {
-	return filler.at(Math.floor(Math.random() * filler.length));
+	const msMod = new Date().getMilliseconds() % filler.length;
+	let char = '-';
+	for (let i = 0; i < msMod + 2; i++) {
+		char = filler.at(Math.floor(Math.random() * filler.length));
+	}
+	return char;
 }
 
 
@@ -109,10 +134,11 @@ function getFillerLetter(filler) {
 ///////////////////////////////////////////////////////////////
 
 class Cell {
-	constructor(row, column, content) {
+	constructor(row, column, content, isAnswer) {
 		this.r = row;
 		this.c = column;
 		this.content = content;
+		this.isAnswer = isAnswer;
 	}
 }
 
@@ -121,6 +147,7 @@ class Cell {
 ///////////////////////////////////////////////////////////////
 
 class Matrix {
+
 	constructor(rows, columns, showIndex, filler) {
 		this.r = rows;
 		this.c = columns;
@@ -132,20 +159,24 @@ class Matrix {
 			this.matrix[r] = new Array();
 			for (let c = 0; c < this.c; c++) {
 				if (this.showIndex) {
-					this.matrix[r][c] = new Cell(r, c, `(${r}, ${c})`);
+					this.matrix[r][c] = new Cell(r, c, `(${r}, ${c})`, false);
 				} else {
-					this.matrix[r][c] = new Cell(r, c, getFillerLetter(this.filler));
+					this.matrix[r][c] = new Cell(r, c, getFillerLetter(this.filler), false);
 				}
 			}
 		}
 	}
-	// Return a div with rows and cells
+
+	// Returns a word search div with rows and cells
 	renderHTML() {
+
 		const parent = document.createElement('div');
-		parent.setAttribute('class', 'ws-container');
+		parent.setAttribute('id', 'ws-html');
+		
 		for (let r = 0; r < this.r; r++) {
 			const row = document.createElement('div');
 			row.setAttribute('class', 'ws-row')
+		
 			for (let c = 0; c < this.c; c++) {
 				const cell = document.createElement('span');
 				cell.setAttribute('class', 'ws-cell');
@@ -155,6 +186,53 @@ class Matrix {
 			parent.appendChild(row);
 		}
 		return parent;
+	}
+
+	// Returns a canvas word search object
+	renderCanvas(showAnswer) {
+
+		const width      = (this.c * CELL_WIDTH) + (2 * CELL_WIDTH);
+		const height     = (this.r * CELL_WIDTH) + (2 * CELL_WIDTH);
+		const cellAdjust = (CELL_WIDTH / 2) - 5;
+
+		const canvas = document.createElement('canvas');
+		canvas.setAttribute('id', 'ws-canvas');
+		canvas.setAttribute('width', width);
+		canvas.setAttribute('height', height);
+
+		const ctx = canvas.getContext('2d');
+		
+		ctx.fillStyle    = '#ffffff';
+		ctx.fillRect(0, 0, width, height);
+
+		ctx.fillStyle    = '#000000';
+		ctx.font         = '1.25rem "Noto Sans Mono", monospace';
+		ctx.textAlign    = 'center';
+		ctx.textBaseline = 'middle';
+
+		if (showAnswer) {
+			for (let c = 0; c < this.c; c++) {
+				for (let r = 0; r < this.r; r++) {
+					if (this.matrix[r][c].isAnswer) {
+						ctx.fillText(this.matrix[r][c].content, 
+							((c + 1) * CELL_WIDTH) + cellAdjust, 
+							((r + 1) * CELL_WIDTH) + cellAdjust);
+					}
+				}
+			}			
+		}
+		else {
+			for (let c = 0; c < this.c; c++) {
+				for (let r = 0; r < this.r; r++) {
+					ctx.fillText(this.matrix[r][c].content, 
+						((c + 1) * CELL_WIDTH) + cellAdjust, 
+						((r + 1) * CELL_WIDTH) + cellAdjust);
+				}
+			}			
+		}
+
+
+		return canvas;
 	}
 }
 
@@ -174,9 +252,10 @@ class Matrix {
 */
 
 ///////////////////////////////////////////////////////////////
-// Changes the filler type description when selecting options
+// INPUT CHANGE EVENTS
 ///////////////////////////////////////////////////////////////
 
+// Changes the filler type description when selecting options
 function showTypeDescription() {
 	const option = TYPE.querySelector('option:checked');
 	if (option) {
@@ -185,6 +264,13 @@ function showTypeDescription() {
 	else {
 		DESCRIPTION.textContent = DESC;
 	}
+}
+
+// resizes the blank preview canvas
+function showCanvasSize() {
+	const canvas = CONTAINER.querySelector('canvas');
+	canvas.setAttribute('width', COLS.value * CELL_WIDTH);
+	canvas.setAttribute('height', ROWS.value * CELL_WIDTH);
 }
 
 ///////////////////////////////////////////////////////////////
