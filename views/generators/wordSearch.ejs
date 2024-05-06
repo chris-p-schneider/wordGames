@@ -1,3 +1,37 @@
 <!-- wordSearch.ejs -->
 
-<h2>Word Search goes here...</h2>
+<script src="<%= script %>" defer></script>
+<section id="word-search">
+	<div id="ws-container">
+	</div>
+
+	<aside>
+		<label for="ws-words">Word Bank:</label>
+		<textarea id="ws-words" name="ws-words" placeholder="Comma, Separated, Words"></textarea>
+
+		<label for="ws-rows">Rows:</label>
+		<input id="ws-rows" name="ws-rows" type="number" min="4" value="4">
+
+		<label for="ws-columns">Columns:</label>
+		<input id="ws-columns" name="ws-columns" type="number" min="4" value="4">
+
+		<label for="ws-type">Filler Type:</label>
+		<p id="ws-type-description">Select a method for the filler letters.</p>
+
+		<select id="ws-type" name="ws-type">
+			<option value="random" 
+				data-description="Easier difficulty: fills in the word search with random letters.">
+				Random Letters</option>
+			<option value="text"
+				data-description="Harder difficulty: fills in the word search with the most frequent English letters from texts.">
+				Text Frequency</option>
+			<option value="dictionary"
+				data-description="Harder difficulty: fills in the word search with the most frequent English letters from dictionaries.">
+				Dictionary Frequency</option>
+		</select>
+
+
+		<button id="ws-button">Generate!</button>
+	</aside>
+
+</section>

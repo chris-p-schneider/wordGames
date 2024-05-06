@@ -15,5 +15,31 @@
 	opacity: 1;
 }
 
+/*********************************************/
+
+#word-search {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+#word-search aside {
+	display: flex;
+	flex-flow: column wrap;
+}
+
+#word-search pre {
+	font-size: 1.5rem;
+	text-align: center;
+	width: 100%;
+}
+
+#ws-type-description {
+	font-family: "Inter", sans-serif;
+	font-size: .9rem;
+	font-style: italic;
+	font-weight: 200;
+	margin-bottom: 5px;
+}
+
 
 /*********************************************/

@@ -4,7 +4,7 @@
 
 :root {
 
-	font-size: 16px;
+	font-size: 18px;
 
 	--background-dark: hsla(0, 0%, 10%, 1);
 	--background-light: hsla(0, 0%, 96%, 1);
@@ -50,10 +50,19 @@ h1, h2, h3, h4, h5, h6,
 a, p, span, ul, ol, li,
 label, input, textarea {
 	font-family: 'Gabarito', sans-serif;
+	font-optical-sizing: auto;
 	margin: 0;
 	line-height: 1;
 	font-weight: 400;
+	font-style: normal;
 	color: var(--font-color);
+}
+
+pre {
+	margin: 0;
+	line-height: 1;
+	font-weight: 400;
+	color: var(--font-color);	
 }
 
 h1 {
@@ -84,6 +93,33 @@ a:hover {
 }
 a:visited {
 	filter: brightness(.75);
+}
+
+
+/*********************************************/
+
+label {
+	margin-bottom: 5px;
+}
+
+input, button, select, option, textarea {
+	font-family: 'Gabarito', sans-serif;
+	font-size: 1rem;
+	background-color: var(--background-accent);
+	color: var(--font-color);
+	margin-bottom: 15px;
+}
+
+textarea {
+	overflow-x: hidden;
+	overflow-y: auto;
+	resize: vertical;
+	min-height: 40px;
+}
+
+button {
+	font-size: 1.05rem;
+	padding: 7.5px 15px;
 }
 
 
